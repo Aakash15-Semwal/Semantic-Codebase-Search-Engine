@@ -1,9 +1,12 @@
 import torch
 from transformers import AutoTokenizer, AutoModel
 
+def get_model_path() -> Path:
+    return (Path(__file__).resolve().parent.parent / "model").resolve()
 
 class CodeEmbedder:
-    def __init__(self, model_name=r".\model"):
+    def __init__(self, model_name=None):
+        model_name = str(model_name or get_model_path())
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.model = AutoModel.from_pretrained(model_name)
         self.model.eval()

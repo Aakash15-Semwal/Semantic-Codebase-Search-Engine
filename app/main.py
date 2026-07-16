@@ -7,10 +7,14 @@ from transformers import AutoTokenizer
 from .models import SearchRequest, SearchResult
 from .codebase_indexer import index_codebase
 
+def get_model_path() -> Path:
+    """Return a filesystem path to the local model directory."""
+    return (Path(__file__).resolve().parent.parent / "model").resolve()
+
 # Path to the codebase we want to index — set via environment variable,
 # To run use this: `CODEBASE_PATH=/path/to/repo uvicorn main:app --reload`
 CODEBASE_PATH = os.environ.get("CODEBASE_PATH")
-MODEL_NAME = r".\model"  # Path to the local model directory
+MODEL_NAME = get_model_path()  # Path to the local model directory
 TOP_K = 5
 
 if not CODEBASE_PATH:
